@@ -1,4 +1,4 @@
-package com.example.springlv2.dto;
+package com.example.springlv2.dto.book;
 
 import lombok.Getter;
 

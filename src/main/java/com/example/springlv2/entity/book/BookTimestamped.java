@@ -1,4 +1,4 @@
-package com.example.springlv2.entity;
+package com.example.springlv2.entity.book;
 
 
 import jakarta.persistence.Column;

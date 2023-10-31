@@ -1,18 +1,19 @@
-package com.example.springlv2.dto;
+package com.example.springlv2.dto.book;
 
-import com.example.springlv2.entity.Book;
+import com.example.springlv2.entity.book.Book;
 import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
 public class BookResponseDto {
+
     private final Long id;
     private final String title;
     private final String author;
     private final String language;
     private final String publisher;
     private final LocalDate registeredAt;
-    private boolean available;
+    private final boolean available;
 
     public BookResponseDto(Book book) {
         this.id = book.getId();

@@ -1,7 +1,7 @@
-package com.example.springlv2.entity;
+package com.example.springlv2.entity.book;
 
 
-import com.example.springlv2.dto.BookRequestDto;
+import com.example.springlv2.dto.book.BookRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,11 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 @DynamicInsert
@@ -48,5 +45,9 @@ public class Book extends BookTimestamped {
         this.author = bookRequestDto.getAuthor();
         this.language = bookRequestDto.getLanguage();
         this.publisher = bookRequestDto.getPublisher();
+    }
+
+    public void updateAvailablily(boolean available) {
+        this.available = available;
     }
 }
