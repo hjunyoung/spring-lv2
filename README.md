@@ -4,7 +4,6 @@
 
 ![use case diagram](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/95a81a33-bc35-4a65-bcba-eb95f0667a7f)
 
-
 ## ERD
 
 book의 language의 경우 **ISO 639-1 codes**를 사용
@@ -13,86 +12,92 @@ book의 language의 경우 **ISO 639-1 codes**를 사용
 
 ## API Spec
 
-![API Spec](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/28ad4e9b-3de5-4f8d-866a-9fdbd0725477)
+![API Spec](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/d794e24e-08c9-4d03-ba5b-1dbd219f4326)
 
 <details open>
   <summary><strong>POST /api/books</strong></summary>
 
 Request
 
-  ```json
-  {
-    "title": "string",
-    "author": "string",
-    "language": "string",
-    "publisher": "string",
-    "registeredAt": {
-      "type": "string",
-      "format": "date-time"
-    }
+```json
+{
+  "title": "string",
+  "author": "string",
+  "language": "string",
+  "publisher": "string",
+  "registeredAt": {
+    "type": "string",
+    "format": "date-time"
   }
-  ```
+}
+```
 
 Response `201` `400`
 
-  Status: 201
-  ```json
-  {
-    "id": "integer",
-    "title": "string",
-    "author": "string",
-    "language": "string",
-    "publisher": "string",
-    "registeredAt": {
-      "type": "string",
-      "format": "date-time"
-    }
+Status: 201
+
+```json
+{
+  "id": "integer",
+  "title": "string",
+  "author": "string",
+  "language": "string",
+  "publisher": "string",
+  "registeredAt": {
+    "type": "string",
+    "format": "date-time"
   }
+}
 ```
 
 Status: 400
+
 ```json
-  {
-    "message": "string",
-  }
-  ```
+{
+  "message": "string"
+}
+```
+
 </details>
 
 
 <details open>
-  <summary><strong>POST /api/register</strong></summary>
+  <summary><strong>POST /api/members</strong></summary>
 
 Request
 
-  ```json
-  {
-    "name": "string",
-    "gender": "string",
-    "rrn": "string",
-    "phoneNumber": "string",
-    "address": "string"
-  }
-  ```
+```json
+{
+  "name": "string",
+  "gender": "string",
+  "rrn": "string",
+  "phoneNumber": "string",
+  "address": "string"
+}
+```
 
 Response `201`  `400`
 
-  Status: 201
-  ```json
-  {
-    "id": "integer",
-    "name": "string",
-    "gender": "string",
-    "phoneNumber": "string",
-    "address": "string"
-  }
+Status: 201
+
+```json
+{
+  "id": "integer",
+  "name": "string",
+  "gender": "string",
+  "phoneNumber": "string",
+  "address": "string"
+}
 ```
 
-  Status: 400
+Status: 400
+
 ```json
-  {
-    "message": "string",
-  }
-  ```
+{
+  "message": "string"
+}
+```
+
 </details>
 
 
@@ -102,10 +107,11 @@ Response `201`  `400`
 Response `200`  `404`
 
 Status: 200
-  ```json
-  {
-    "type": "array",
-    "items": {
+
+```json
+{
+  "type": "array",
+  "items": {
     "id": "integer",
     "title": "string",
     "author": "string",
@@ -114,17 +120,19 @@ Status: 200
     "registeredAt": {
       "type": "string",
       "format": "date-time"
-      }
     }
   }
+}
 ```
 
 Status: 404
+
 ```json
-  {
-    "message": "string",
-  }
-  ```
+{
+  "message": "string"
+}
+```
+
 </details>
 
 
@@ -134,39 +142,43 @@ Status: 404
 Response `200`  `404`
 
 Status: 200
-  ```json
-  {
-    "id": "integer",
-    "title": "string",
-    "author": "string",
-    "language": "string",
-    "publisher": "string",
-    "registeredAt": {
-      "type": "string",
-      "format": "date-time"
-    }
+
+```json
+{
+  "id": "integer",
+  "title": "string",
+  "author": "string",
+  "language": "string",
+  "publisher": "string",
+  "registeredAt": {
+    "type": "string",
+    "format": "date-time"
   }
+}
 ```
 
 Status: 404
+
 ```json
-  {
-    "message": "string",
-  }
-  ```
+{
+  "message": "string"
+}
+```
+
 </details>
 
 <details open>
-  <summary><strong>GET /api/members/{memberId}</strong></summary>
+  <summary><strong>GET /api/books/records</strong></summary>
 
 
 Response `200` `404`
 
 Status: 200
-  ```json
-  {
-    "type": "array",
-    "items": {
+
+```json
+{
+  "type": "array",
+  "items": {
     "id": "integer",
     "name": "string",
     "phoneNumber": "string",
@@ -175,61 +187,45 @@ Status: 200
     "borrowedAt": {
       "type": "string",
       "format": "date-time"
-      }
     }
   }
+}
 ```
 
 Status: 404
+
 ```json
-  {
-    "message": "string",
-  }
-  ```
+{
+  "message": "string"
+}
+```
+
 </details>
 
 <details open>
-  <summary><strong>POST /api/members/{memberId}books/{bookId}</strong></summary>
-
-
-Request
-
-  ```json
-  {
-    "bookId": "integer",
-    "memberId": "integer"
-  }
-  ```
+  <summary><strong>POST /api/books/{bookId}</strong></summary>
 
 Response `201` `400` `404`
 
-  ```json
-  {
-    "message": "string"
-  }
-  ```
+```json
+{
+  "message": "string"
+}
+```
+
 </details>
 
 <details open>
-  <summary><strong>PUT /api/members/{memberId}books/{bookId}</strong></summary>
-
-
-Request
-
-  ```json
-  {
-    "bookId": "integer",
-    "memberId": "integer"
-  }
-  ```
+  <summary><strong>PUT /api/books/{bookId}</strong></summary>
 
 Response `201` `400` `404`
 
-  ```json
-  {
-    "message": "string"
-  }
-  ```
+```json
+{
+  "message": "string"
+}
+```
+
 </details>
 
 <br>
