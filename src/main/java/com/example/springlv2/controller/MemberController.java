@@ -19,6 +19,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 회원 등록
+     */
     @PostMapping()
     public ResponseEntity<MemberResponseDto> register(
         @RequestBody @Validated MemberRequestDto memberRequestDto) {
