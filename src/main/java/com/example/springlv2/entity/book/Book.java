@@ -30,7 +30,6 @@ public class Book extends BookTimestamped {
     @Column(name = "author", nullable = false, length = 100)
     private String author;
 
-    // 유효성 검사 추가하기
     @Column(name = "language", nullable = false, length = 2)
     private String language;
 

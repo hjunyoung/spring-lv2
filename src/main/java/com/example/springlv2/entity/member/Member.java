@@ -26,15 +26,12 @@ public class Member {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    // 유효성 검사 추가하기
     @Column(name = "gender", nullable = false, length = 1)
     private String gender;
 
-    // 유효성 검사 추가하기
     @Column(name = "resident_registration_number", nullable = false, length = 13, unique = true)
     private String rrn;
 
-    // 유효성 검사 추가하기
     @Column(name = "phone_number", nullable = false, length = 11, unique = true)
     private String phoneNumber;
 

@@ -1,6 +1,5 @@
 package com.example.springlv2.dto;
 
-import com.example.springlv2.entity.borrowRecord.BorrowRecord;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
