@@ -2,17 +2,25 @@
 
 ## 도서관 서버 만들기
 
+## 📌 TODO
+
+1. 404 Error Status code 나오게 하기
+2. 회원 등록 실패 시 memberId 1 증가하는 문제 해결하기
+
+
+## Use case diagram
+
 ![use case diagram](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/95a81a33-bc35-4a65-bcba-eb95f0667a7f)
 
 ## ERD
 
 book의 language의 경우 **ISO 639-1 codes**를 사용
 
-![ERD](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/681bb3b9-0acc-450e-a3bf-3ca3c71f2fff)
+![ERD](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/336db01f-f5ad-4e50-a5f4-1bd169f20685)
 
 ## API Spec
 
-![API Spec](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/d794e24e-08c9-4d03-ba5b-1dbd219f4326)
+![API Spec](https://github.com/hjunyoung/hjunyoung.github.io/assets/50318500/e497ed98-bf7d-4921-8619-00fdb2538e74)
 
 <details open>
   <summary><strong>POST /api/books</strong></summary>
@@ -24,11 +32,7 @@ Request
   "title": "string",
   "author": "string",
   "language": "string",
-  "publisher": "string",
-  "registeredAt": {
-    "type": "string",
-    "format": "date-time"
-  }
+  "publisher": "string"
 }
 ```
 
@@ -46,7 +50,8 @@ Status: 201
   "registeredAt": {
     "type": "string",
     "format": "date-time"
-  }
+  },
+  "available": "boolean"
 }
 ```
 
@@ -54,6 +59,8 @@ Status: 400
 
 ```json
 {
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -94,6 +101,8 @@ Status: 400
 
 ```json
 {
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -120,7 +129,8 @@ Status: 200
     "registeredAt": {
       "type": "string",
       "format": "date-time"
-    }
+    },
+    "available": "boolean"
   }
 }
 ```
@@ -129,6 +139,8 @@ Status: 404
 
 ```json
 {
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -153,7 +165,8 @@ Status: 200
   "registeredAt": {
     "type": "string",
     "format": "date-time"
-  }
+  },
+  "available": "boolean"
 }
 ```
 
@@ -161,6 +174,8 @@ Status: 404
 
 ```json
 {
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -168,10 +183,10 @@ Status: 404
 </details>
 
 <details open>
-  <summary><strong>GET /api/books/records</strong></summary>
+  <summary><strong>GET /api/records</strong></summary>
 
 
-Response `200` `404`
+Response `200` `400` `404`
 
 Status: 200
 
@@ -187,15 +202,18 @@ Status: 200
     "borrowedAt": {
       "type": "string",
       "format": "date-time"
-    }
+    },
+    "returnStatus": "boolean"
   }
 }
 ```
 
-Status: 404
+Status: 400, 404
 
 ```json
 {
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -205,10 +223,23 @@ Status: 404
 <details open>
   <summary><strong>POST /api/books/{bookId}</strong></summary>
 
-Response `201` `400` `404`
+Response `201` `400`
+
+Status: 201
 
 ```json
 {
+  "message": "string"
+}
+
+```
+
+Status: 400
+
+```json
+{
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
@@ -218,10 +249,22 @@ Response `201` `400` `404`
 <details open>
   <summary><strong>PUT /api/books/{bookId}</strong></summary>
 
-Response `201` `400` `404`
+Response `200` `400`
+
+Status: 200
 
 ```json
 {
+  "message": "string"
+}
+```
+
+Status: 400
+
+```json
+{
+  "code": "string",
+  "error type": "string",
   "message": "string"
 }
 ```
