@@ -8,7 +8,6 @@ import com.example.springlv2.repository.BookRepository;
 import com.example.springlv2.repository.MemberRepository;
 import com.example.springlv2.repository.RecordRepository;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +21,19 @@ public class RecordService {
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
 
-    public List<BorrowRecordDto> showBorrowRecord() {
-        return recordRepository.findAllByOrderByBorrowedAtAsc()
-            .stream().map(this::mapToBorrowRecordDto)
+    public List<BorrowRecordDto> showBorrowRecord(Optional<Boolean> onLoan) {
+        List<BorrowRecord> foundList = (onLoan.isPresent() && onLoan.get()) ?
+            recordRepository.findAllByReturnStatusFalseOrderByBorrowedAtAsc() :
+            recordRepository.findAllByOrderByBorrowedAtAsc();
+
+        return foundList.stream().map(this::mapToBorrowRecordDto)
             .toList();
     }
 
     private BorrowRecordDto mapToBorrowRecordDto(BorrowRecord borrowRecord) {
         Long id = borrowRecord.getId();
         LocalDateTime borrowedAt = borrowRecord.getBorrowedAt();
+        boolean returnStatus = borrowRecord.isReturnStatus();
         Member member = memberRepository.findById(borrowRecord.getMemberId()).get();
         Book book = bookRepository.findById(borrowRecord.getBookId()).get();
         String name = member.getName();
@@ -43,6 +46,7 @@ public class RecordService {
             phoneNumber,
             title,
             author,
-            borrowedAt);
+            borrowedAt,
+            returnStatus);
     }
 }

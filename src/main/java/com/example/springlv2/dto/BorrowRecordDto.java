@@ -13,6 +13,8 @@ public class BorrowRecordDto {
     private String title;
     private String author;
     private LocalDateTime borrowedAt;
+    private boolean returnStatus;
+
 
     public BorrowRecordDto(
         Long id,
@@ -20,12 +22,13 @@ public class BorrowRecordDto {
         String phoneNumber,
         String title,
         String author,
-        LocalDateTime borrowedAt) {
+        LocalDateTime borrowedAt, boolean returnStatus) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.title = title;
         this.author = author;
         this.borrowedAt = borrowedAt;
+        this.returnStatus = returnStatus;
     }
 }

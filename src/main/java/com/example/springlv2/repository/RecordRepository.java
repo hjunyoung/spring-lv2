@@ -9,6 +9,8 @@ public interface RecordRepository extends JpaRepository<BorrowRecord, Long> {
 
     List<BorrowRecord> findAllByOrderByBorrowedAtAsc();
 
+    List<BorrowRecord> findAllByReturnStatusFalseOrderByBorrowedAtAsc();
+
     Optional<BorrowRecord> findFirstByMemberIdOrderByBorrowedAtDesc(Long memberId);
 
     Optional<BorrowRecord> findFirstByMemberIdAndBookIdOrderByBorrowedAtDesc(
