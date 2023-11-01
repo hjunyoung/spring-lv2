@@ -55,9 +55,7 @@ public class BookService {
         Book book = findBook(bookId);
 
         // 회원 존재 확인
-        memberRepository.findById(memberId).orElseThrow(() ->
-            new IllegalArgumentException("회원 정보가 존재하지 않습니다.")
-        );
+        memberCheck(memberId);
 
         // 반납할 도서가 있는지 확인
         Optional<BorrowRecord> bookToReturn = recordRepository.findFirstByMemberIdOrderByBorrowedAtDesc(
@@ -87,9 +85,7 @@ public class BookService {
     @Transactional
     public ResponseDto returnBook(Long memberId, Long bookId) {
         // 회원 존재 확인
-        memberRepository.findById(memberId).orElseThrow(() ->
-            new IllegalArgumentException("회원 정보가 존재하지 않습니다.")
-        );
+        memberCheck(memberId);
 
         // 반납할 도서가 있는지 확인
         Optional<BorrowRecord> bookToReturn = recordRepository.
@@ -114,6 +110,12 @@ public class BookService {
     private Book findBook(Long bookId) {
         return bookRepository.findById(bookId).orElseThrow(() ->
             new IllegalArgumentException("선택한 도서가 존재하지 않습니다.")
+        );
+    }
+
+    private void memberCheck(Long memberId) {
+        memberRepository.findById(memberId).orElseThrow(() ->
+            new IllegalArgumentException("회원 정보가 존재하지 않습니다.")
         );
     }
 }
