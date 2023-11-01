@@ -8,14 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
@@ -42,11 +41,18 @@ public class Member {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @Column(name = "penalty_end_date")
+    private LocalDate penaltyEndDate;
+
     public Member(MemberRequestDto memberRequestDto) {
         this.name = memberRequestDto.getName();
         this.gender = memberRequestDto.getGender();
         this.rrn = memberRequestDto.getRrn();
         this.phoneNumber = memberRequestDto.getPhoneNumber();
         this.address = memberRequestDto.getAddress();
+    }
+
+    public void penalize() {
+        this.penaltyEndDate = LocalDate.now().plusDays(14);
     }
 }

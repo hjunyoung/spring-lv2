@@ -5,15 +5,21 @@ import com.example.springlv2.dto.book.BookRequestDto;
 import com.example.springlv2.dto.book.BookResponseDto;
 import com.example.springlv2.entity.book.Book;
 import com.example.springlv2.entity.borrowRecord.BorrowRecord;
+import com.example.springlv2.entity.member.Member;
 import com.example.springlv2.repository.BookRepository;
 import com.example.springlv2.repository.MemberRepository;
 import com.example.springlv2.repository.RecordRepository;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+@Slf4j(topic = "Penalty log")
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -52,7 +58,15 @@ public class BookService {
         Book book = findBook(bookId);
 
         // 회원 존재 확인
-        memberCheck(memberId);
+        Member member = memberCheck(memberId);
+
+        // 페널티 체크
+        LocalDate now = LocalDate.now();
+        Optional<LocalDate> penaltyEndDate = Optional.ofNullable(member.getPenaltyEndDate());
+        if (penaltyEndDate.isPresent() && now.isBefore(penaltyEndDate.get())) {
+            throw new IllegalArgumentException(
+                String.format("%s 부터 대출할 수 있습니다.", penaltyEndDate.get().plusDays(1)));
+        }
 
         // 반납할 도서가 있는지 확인
         Optional<BorrowRecord> bookToReturn = recordRepository.findFirstByMemberIdOrderByBorrowedAtDesc(
@@ -81,7 +95,7 @@ public class BookService {
     @Transactional
     public ResponseDto returnBook(Long memberId, Long bookId) {
         // 회원 존재 확인
-        memberCheck(memberId);
+        Member member = memberCheck(memberId);
 
         // 반납할 도서가 있는지 확인
         Optional<BorrowRecord> bookToReturn = recordRepository.
@@ -92,9 +106,18 @@ public class BookService {
             throw new IllegalArgumentException("해당 도서를 대출하지 않았습니다.");
         }
 
-        // 대출 record 업데이트
-        // BorrowRecord Entity
+        // 대출 record 업데이트 : 아직 Transactional 상태 -> sql 적용X
         bookToReturn.get().returnBook();
+
+        // 페널티 체크
+        LocalDate now = LocalDate.now();
+
+        long days = ChronoUnit.DAYS.between(bookToReturn.get().getBorrowedAt().toLocalDate(),
+            now);
+        if (days > 14) {
+            log.info("회원{}: 페널티 적용!", memberId);
+            member.penalize();
+        }
 
         // 도서 대출 가능 여부 변경
         Book book = findBook(bookId);
@@ -109,8 +132,8 @@ public class BookService {
         );
     }
 
-    private void memberCheck(Long memberId) {
-        memberRepository.findById(memberId).orElseThrow(() ->
+    private Member memberCheck(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() ->
             new IllegalArgumentException("회원 정보가 존재하지 않습니다.")
         );
     }

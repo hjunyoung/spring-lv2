@@ -18,8 +18,7 @@ public class MemberService {
         Member member = new Member(memberRequestDto);
 
         // DB 저장
-        // TODO Validate로 바꾸면 어떻게 되지?
-        // Exception으로 받는게 좀 이상함
+        // Todo 중복 유효성 체크 추가하기
         try {
             memberRepository.save(member);
         } catch (Exception e) {
