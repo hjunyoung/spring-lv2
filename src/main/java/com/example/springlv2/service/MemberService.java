@@ -22,7 +22,7 @@ public class MemberService {
         try {
             memberRepository.save(member);
         } catch (Exception e) {
-            throw new IllegalArgumentException("유효하지 않은 입력입니다");
+            throw new IllegalArgumentException("중복된 전화번호/주민번호입니다.");
         }
 
         return new MemberResponseDto(member);
