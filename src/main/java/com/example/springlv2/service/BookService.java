@@ -5,15 +5,12 @@ import com.example.springlv2.dto.book.BookRequestDto;
 import com.example.springlv2.dto.book.BookResponseDto;
 import com.example.springlv2.entity.book.Book;
 import com.example.springlv2.entity.borrowRecord.BorrowRecord;
-import com.example.springlv2.entity.member.Member;
 import com.example.springlv2.repository.BookRepository;
 import com.example.springlv2.repository.MemberRepository;
 import com.example.springlv2.repository.RecordRepository;
 import java.util.List;
 import java.util.Optional;
-import javax.naming.ServiceUnavailableException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +64,6 @@ public class BookService {
 
         // 책 빌릴 수 있는지 확인
         if (!book.isAvailable()) {
-            // TODO 적절한 Exception으로 변경 후 controller에서 예외처리하기 + status code
             throw new IllegalArgumentException("선택한 도서를 빌릴 수 없습니다.");
         }
 

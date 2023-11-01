@@ -6,6 +6,7 @@ import com.example.springlv2.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ public class MemberController {
 
     @PostMapping()
     public ResponseEntity<MemberResponseDto> register(
-        @RequestBody MemberRequestDto memberRequestDto) {
+        @RequestBody @Validated MemberRequestDto memberRequestDto) {
         MemberResponseDto memberResponseDto = memberService.register(memberRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(memberResponseDto);
 //        return ResponseEntity.created().body(memberResponseDto);
