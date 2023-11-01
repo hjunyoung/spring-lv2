@@ -18,8 +18,13 @@ public class MemberService {
         Member member = new Member(memberRequestDto);
 
         // DB 저장
-        // TODO 예외 던지고 @ControllerAdvice, @ExceptionHandler로 예외처리하기
-        memberRepository.save(member);
+        // TODO Validate로 바꾸면 어떻게 되지?
+        // Exception으로 받는게 좀 이상함
+        try {
+            memberRepository.save(member);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("유효하지 않은 입력입니다");
+        }
 
         return new MemberResponseDto(member);
     }
